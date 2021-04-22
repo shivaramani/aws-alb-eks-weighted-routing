@@ -10,6 +10,9 @@ YOUR_CLUSTER_NAME=my-eks
 YOUR_REGION=us-east-1
 YOUR_ACCOUNT_NUMBER=<PUT_IT_HERE>
 
+eksctl create cluster --name $YOUR_CLUSTER_NAME --version 1.18 --fargate
+eksctl utils associate-iam-oidc-provider --cluster $YOUR_CLUSTER_NAME --approve
+
 eksctl create iamserviceaccount \
   --cluster=$YOUR_CLUSTER_NAME \
   --namespace=kube-system \
@@ -39,13 +42,13 @@ eksctl create fargateprofile --cluster $YOUR_CLUSTER_NAME --region $YOUR_REGION 
 
 kubectl apply -f k8s.yaml
 
-kubectl get -n springboot ingress/ingress-springboot 
+kubectl -n springboot ingress/ingress-springboot 
 
-kubectl get -n springboot get deployment
+kubectl -n get deployment
 
-kubectl get -n springboot get pods
+kubectl -n springboot get pods
 
-kubectl get -n springboot get svc
+kubectl -n springboot get svc
 
 ```
 
