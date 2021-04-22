@@ -1,0 +1,14 @@
+# docker login
+# docker build -t example/htmlwebapp .
+# docker tag example/htmlwebapp:latest shivaramani/htmlwebapp
+# docker push shivaramani/htmlwebapp:latest
+
+FROM python:latest
+
+RUN mkdir -p /html
+
+RUN cd /html
+
+RUN echo "test page" >> /html/index.html
+
+CMD python3 -m http.server 8080

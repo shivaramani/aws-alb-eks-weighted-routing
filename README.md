@@ -1,5 +1,7 @@
 ### Weighted routing using AWS ALB Ingress controller
 
+This example illustrates using AWS Load balancer weighted routing to different docker images (java application, reactui app, static html)
+
 - Make sure to replace your cluster name, region, account number and eks_vpc_id (after eks cluster creation)
 - Mak sure to have eksctl, helm, kubectl installed on your machine
 - For testing sake there are two docker images that are used from my public repo (on the k8s.yaml for the k8s service)
@@ -51,6 +53,20 @@ kubectl -n springboot get pods
 kubectl -n springboot get svc
 
 ```
+
+### Can point to different doccker containers having Java/Html/ReactUI app for testing
+
+- java
+  - k8s containers: shivaramani/springboot and shivaramani/springbootexternalservice
+  - ingress path: /sayhello  
+
+- reactjs
+  - k8s containers: shivaramani/reactuiapp
+  - ingress path: /*
+
+- html
+  - k8s containers: shivaramani/htmlapp
+  - ingress path: /html
 
 ### Testing
 

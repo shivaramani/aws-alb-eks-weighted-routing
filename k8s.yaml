@@ -20,7 +20,7 @@ spec:
         app.kubernetes.io/name: app1-springboot
     spec:
       containers:
-      - image: shivaramani/springboot
+      - image: shivaramani/reactuiapp
         imagePullPolicy: Always
         name: app1-springboot
         ports:
@@ -42,7 +42,7 @@ spec:
         app.kubernetes.io/name: app2-springboot
     spec:
       containers:
-      - image: shivaramani/springbootexternalservice
+      - image: shivaramani/reactuiapp
         imagePullPolicy: Always
         name: app2-springboot
         ports:
@@ -97,7 +97,7 @@ spec:
             backend:
               serviceName: response-503
               servicePort: use-annotation
-          - path: /sayhello
+          - path: /*
             backend:
               serviceName: forward-multiple-tg
               servicePort: use-annotation   
