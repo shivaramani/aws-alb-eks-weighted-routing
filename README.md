@@ -42,11 +42,48 @@ helm repo add eks https://aws.github.io/eks-charts
 
 eksctl create fargateprofile --cluster $YOUR_CLUSTER_NAME --region $YOUR_REGION --name springboot-app --namespace springboot    
 
+```
+<!-- aws iam create-policy \
+  --policy-name ACKIAMPolicy \
+  --policy-document file://ack-iam-policy.json
+
+eksctl create iamserviceaccount \
+  --attach-policy-arn=arn:aws:iam::${YOUR_ACCOUNT_NUMBER}:policy/ACKIAMPolicy \
+  --cluster=$YOUR_CLUSTER_NAME \
+  --namespace=kube-system \
+  --name=ack-apigatewayv2-controller \
+  --override-existing-serviceaccounts \
+  --region $YOUR_REGION \
+  --approve
+
+export HELM_EXPERIMENTAL_OCI=1
+export SERVICE=apigatewayv2
+export RELEASE_VERSION=v0.0.2
+export CHART_EXPORT_PATH=/tmp/chart
+export CHART_REPO=public.ecr.aws/aws-controllers-k8s/chart
+export CHART_REF=$CHART_REPO:$SERVICE-$RELEASE_VERSION
+mkdir -p $CHART_EXPORT_PATH
+
+helm chart pull $CHART_REF
+helm chart export $CHART_REF --destination $CHART_EXPORT_PATH
+
+# Install ACK
+
+helm install ack-${SERVICE}-controller \
+  $CHART_EXPORT_PATH/ack-${SERVICE}-controller \
+  --namespace kube-system \
+  --set serviceAccount.create=false \
+  --set aws.region=$YOUR_REGION
+
+kubectl apply -f k8s_apigwy.yaml -->
+
+```
+
 kubectl apply -f k8s.yaml
 
-kubectl -n springboot ingress/ingress-springboot 
+kubectl -n springboot get ingress/ingress-springboot 
 
-kubectl -n get deployment
+kubectl -n springboot get deployment
 
 kubectl -n springboot get pods
 
@@ -54,7 +91,7 @@ kubectl -n springboot get svc
 
 ```
 
-### Can point to different doccker containers having Java/Html/ReactUI app for testing
+### Can point to different docker containers having Java/Html/ReactUI app for testing
 
 - java
   - k8s containers: shivaramani/springboot and shivaramani/springbootexternalservice
